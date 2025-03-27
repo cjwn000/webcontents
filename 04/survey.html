@@ -13,12 +13,11 @@
         }
 
         h2 {
-        /* border-bottom: 2px solid #333; */
         padding-bottom: 5px;
         }
 
-        hr{
-            
+        p{
+        border-bottom: 2px solid #333;
         }
 
     </style>
@@ -27,7 +26,35 @@
 
 <body>
     <h2>설문지</h2>
-    <p>소프트웨어 기술에 대한 의견을 듣습니다. 많은 참여 부탁드립니다.</p><hr>
+    <p>소프트웨어 기술에 대한 의견을 듣습니다. 많은 참여 부탁드립니다.</p>
+
+    <form>
+        학년 : 
+        <label for="a">1학년<input type="radio" name="grade" value="1" id="a"></label>
+        <label>2학년<input type="radio" name="grade" value="2" ></label>
+        <label>3학년<input type="radio" name="grade" value="3"></label>
+        <label>4학년<input type="radio" name="grade" value="4"></label><br>
+
+        성별 : 남성<input type="radio" name="sex" value="1">
+        여성<input type="radio" name="sex" value="2"><br>
+
+        관심분야 : <input type="text" list="관심분야"><br>
+        <datalist id="관심분야">
+            <option value="인공지능"></option>
+            <option value="프로그래밍"></option>
+            <option value="운영체제"></option>
+        </datalist>
+
+        진로 : 개발<input type="checkbox" name="진로" value="1">
+        기획<input type="checkbox" name="진로" value="2">
+        영업<input type="checkbox" name="진로" value="3">
+        창업<input type="checkbox" name="진로" value="4"><br>
+
+        남기고 싶은말<br>
+        <textarea rows="10" cols="40" placeholder="글을 남겨 주세요"></textarea><br>
+        
+
+    </form>
 
 </body>
 </html>
