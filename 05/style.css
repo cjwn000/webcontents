@@ -1,0 +1,45 @@
+body{
+    background-color: aliceblue;
+}
+
+
+h1{
+    color: brown;
+    text-align: center;
+}
+
+
+p{
+    font-family: '휴먼편지체';
+    font-size: 1em;
+    text-indent: 1em;
+}
+
+
+a{
+    text-decoration: none;
+}
+
+
+h3{
+    text-shadow: 2px 2px 5px skyblue;
+}
+
+
+.box{
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-left: 1%;
+    padding-right: 1%;
+    
+    border-radius: 10px;
+
+    font-family: '휴먼편지체';
+    
+    background-color: rgb(255, 175, 0);
+
+}
+
+.tab{
+    text-indent: 10px;
+}
