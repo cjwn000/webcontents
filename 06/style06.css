@@ -1,0 +1,67 @@
+body{
+    background-color: aliceblue;
+}
+
+
+h1{
+    color: brown;
+    text-align: center;
+}
+
+
+p{
+    font-family: '휴먼편지체';
+    font-size: 1em;
+    text-indent: 1em;
+}
+
+
+a{
+    text-decoration: none;
+}
+
+
+h3{
+    text-shadow: 2px 2px 5px skyblue;
+}
+
+
+.box{
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-left: 1%;
+    padding-right: 1%;
+    
+    border-radius: 10px;
+
+    font-family: '휴먼편지체';
+    
+    background-color: rgb(255, 175, 0);
+
+}
+
+nav>ul {
+    border-width: 1px;
+    border-style: dashed;
+    border-color: blue;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td,th {
+    text-align: left;
+    padding: 5px;
+    height: 15px;
+    width: 100px;
+}
+
+thead,tfoot {
+    background-color: darkgray;
+    color: yellow;
+}
+
+tbody tr:hover {
+    background-color: pink;
+}

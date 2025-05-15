@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    
+    <script>
+    function Account(owner, code, balance) {
+        this.owner = owner;
+        this.code = code;
+        this.balance = balance;
+
+        this.inquiry = function() {
+            return this.balance;
+        }
+        this.deposit = function(money) {
+            this.balance += money;
+        }
+        this.withdraw = function(money) {
+            this.balance -= money;
+            return money;
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <h3>make Account prototype</h3>
+    <hr>
+    <script>
+    let Account = new Account("황기태", "111", 35000);
+
+    Document.write("Account:");
+    Document.write(Account.owner+",");
+    Document.write(Account.code+",");
+    Document.write(Account.balance+"<br>");
+
+    Account.deposit(10000);
+    Document.write("10000원 저금 호 잔액은"+Account.inquiry()+"<br>");
+    Account.withdraw(5000);
+    Document.write("5000원 인출 후 잔액은"+Account.inquiry()+"<br>");
+    </script>
+</body>
+</html>
