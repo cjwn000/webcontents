@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>C언어 목차별 문제 풀이 학습 프로그램</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+        body {
+            font-family: 'Inter', 'Apple SD Gothic Neo', Arial, sans-serif;
+            background: #f7f8fa;
+            
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 820px;
+            margin: 40px auto 40px auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px 0 rgba(0,0,0,0.07);
+            padding: 40px 36px 36px 36px;
+        }
+        h1 {
+            color: #222;
+            font-weight: 700;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            letter-spacing: -1px;
+        }
+        h2 {
+            color: #222;
+            font-weight: 600;
+            font-size: 1.25rem;
+            margin-top: 36px;
+            margin-bottom: 18px;
+            letter-spacing: -0.5px;
+        }
+        .section {
+            margin-bottom: 24px;
+        }
+        .problems {
+            margin-left: 0;
+        }
+        .problem {
+            background: #f7f8fa;
+            border-radius: 12px;
+            padding: 18px 20px 12px 20px;
+            margin-bottom: 14px;
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,0.03);
+            transition: box-shadow 0.2s;
+        }
+        .problem:hover {
+            box-shadow: 0 4px 16px 0 rgba(0,0,0,0.06);
+        }
+        .problem b {
+            color: #222;
+            font-weight: 600;
+        }
+        .solution {
+            display: none;
+            background: #fff;
+            border: 1px solid #e5e8eb;
+            padding: 14px 16px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.98rem;
+            color: #222;
+            font-family: 'JetBrains Mono', 'Fira Mono', 'Consolas', monospace;
+            white-space: pre-wrap;
+        }
+        button {
+            background: #3182f6;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 7px 18px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 7px;
+            margin-bottom: 2px;
+            transition: background 0.18s;
+        }
+        button:hover, button:focus {
+            background: #2563eb;
+        }
+        #exam-section, #wrong-note-section {
+            margin-top: 36px;
+            padding: 28px 24px 24px 24px;
+            border-radius: 16px;
+            background: #f7f8fa;
+            box-shadow: 0 2px 8px 0 rgba(0,0,0,0.03);
+            border: none;
+        }
+        #exam-section h2, #wrong-note-section h2 {
+            margin-top: 0;
+        }
+        #exam-question {
+            font-weight: 600;
+            font-size: 1.08rem;
+            color: #222;
+            margin-bottom: 10px;
+            min-height: 24px;
+        }
+        #timer {
+            color: #3182f6;
+            font-weight: 600;
+            margin-left: 18px;
+            font-size: 1.08rem;
+        }
+        #score {
+            color: #00b8ff;
+            font-weight: 600;
+            margin-left: 18px;
+            font-size: 1.08rem;
+        }
+        #exam-answer {
+            width: 65%;
+            padding: 9px 12px;
+            border: 1.5px solid #e5e8eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-right: 8px;
+            margin-top: 8px;
+            background: #fff;
+            transition: border 0.2s;
+        }
+        #exam-answer:focus {
+            border: 1.5px solid #3182f6;
+            outline: none;
+        }
+        #exam-result {
+            margin-top: 10px;
+            color: #e74c3c;
+            font-weight: 500;
+        }
+        #wrong-list {
+            margin-top: 10px;
+        }
+        .wrong-item {
+            background: #fff;
+            border: 1px solid #e5e8eb;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            font-size: 0.98rem;
+            color: #222;
+        }
+        code {
+            background: #f1f3f5;
+            border-radius: 5px;
+            padding: 2px 6px;
+            font-size: 0.97em;
+            font-family: 'JetBrains Mono', 'Fira Mono', 'Consolas', monospace;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 16px 4vw;
+            }
+            #exam-answer {
+                width: 98%;
+                margin-bottom: 8px;
+            }
+        }
+    </style>
+    <script>
+        function toggleSolution(id) {
+            var el = document.getElementById(id);
+            el.style.display = el.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // 시험 대비 기능
+        const examProblems = [
+            {
+                question: "두 정수의 합을 구하는 프로그램을 작성하세요.",
+                answer: "a + b"
+            },
+            {
+                question: "입력받은 수가 짝수인지 홀수인지 판별하세요.",
+                answer: "n % 2 == 0"
+            },
+            {
+                question: "세 수 중 가장 큰 수를 출력하세요.",
+                answer: "if (b > max) max = b;"
+            },
+            {
+                question: "1부터 10까지 합을 구하세요.",
+                answer: "sum += i"
+            },
+            {
+                question: "윤년 판별 프로그램을 작성하세요.",
+                answer: "(year % 4 == 0 && year % 100 != 0) || year % 400 == 0"
+            }
+        ];
+        let examIndex = 0;
+        let examOrder = [];
+        let examScore = 0;
+        let examTime = 60; // seconds
+        let examTimer = null;
+        let wrongAnswers = [];
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function startExam() {
+            examScore = 0;
+            examIndex = 0;
+            examOrder = [...Array(examProblems.length).keys()];
+            shuffle(examOrder);
+            document.getElementById('exam-result').innerText = '';
+            document.getElementById('exam-answer').value = '';
+            document.getElementById('score').innerText = '';
+            examTime = 60;
+            document.getElementById('timer').innerText = examTime + "초";
+            wrongAnswers = [];
+            showExamQuestion();
+            if (examTimer) clearInterval(examTimer);
+            examTimer = setInterval(() => {
+                examTime--;
+                document.getElementById('timer').innerText = examTime + "초";
+                if (examTime <= 0) {
+                    finishExam();
+                }
+            }, 1000);
+        }
+
+        function showExamQuestion() {
+            if (examIndex < examOrder.length) {
+                const idx = examOrder[examIndex];
+                document.getElementById('exam-question').innerText = examProblems[idx].question;
+                document.getElementById('exam-answer').value = '';
+                document.getElementById('exam-answer').focus();
+            } else {
+                finishExam();
+            }
+        }
+
+        function submitExamAnswer() {
+            if (examIndex >= examOrder.length) return;
+            const idx = examOrder[examIndex];
+            const userAns = document.getElementById('exam-answer').value.trim().replace(/\s/g, "");
+            const correctAns = examProblems[idx].answer.replace(/\s/g, "");
+            if (userAns && correctAns && userAns.includes(correctAns)) {
+                examScore++;
+            } else {
+                wrongAnswers.push(idx);
+            }
+            examIndex++;
+            showExamQuestion();
+        }
+
+        function finishExam() {
+            clearInterval(examTimer);
+            document.getElementById('exam-question').innerText = '시험 종료!';
+            document.getElementById('score').innerText = `점수: ${examScore} / ${examProblems.length}`;
+            document.getElementById('exam-answer').value = '';
+            document.getElementById('exam-result').innerText = '';
+            updateWrongNote();
+        }
+
+        // 오답 노트 기능
+        function updateWrongNote() {
+            const list = document.getElementById('wrong-list');
+            list.innerHTML = '';
+            if (wrongAnswers.length === 0) {
+                list.innerHTML = '<div style="color:#3182f6;font-weight:500;">오답이 없습니다!</div>';
+                return;
+            }
+            wrongAnswers.forEach(idx => {
+                const prob = examProblems[idx];
+                const div = document.createElement('div');
+                div.className = 'wrong-item';
+                div.innerHTML = `<b>문제:</b> ${prob.question}<br><b>핵심 코드/개념:</b> <code>${prob.answer}</code>`;
+                list.appendChild(div);
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+    <h1>C언어 목차별 문제 풀이 학습</h1>
+    <div class="section">
+        <h2>1. 변수와 자료형</h2>
+        <div class="problems">
+            <div class="problem">
+                <b>문제 1:</b> 두 정수의 합을 구하는 프로그램을 작성하세요.<br>
+                <button onclick="toggleSolution('sol1-1')">풀이 보기</button>
+                <div class="solution" id="sol1-1">
+<pre>
+#include &lt;stdio.h&gt;
+int main() {
+    int a, b;
+    scanf("%d %d", &a, &b);
+    printf("%d", a + b);
+    return 0;
+}
+</pre>
+                </div>
+            </div>
+            <div class="problem">
+                <b>문제 2:</b> 실수형 변수에 값을 저장하고 출력하세요.<br>
+                <button onclick="toggleSolution('sol1-2')">풀이 보기</button>
+                <div class="solution" id="sol1-2">
+<pre>
+#include &lt;stdio.h&gt;
+int main() {
+    float f = 3.14f;
+    printf("%.2f", f);
+    return 0;
+}
+</pre>
+                </div>
+            </div>
+            <div class="problem">
+                <b>문제 3:</b> 문자형 변수에 문자 'A'를 저장하고 출력하세요.<br>
+                <button onclick="toggleSolution('sol1-3')">풀이 보기</button>
+                <div class="solution" id="sol1-3">
+<pre>
+#include &lt;stdio.h&gt;
+int main() {
+    char c = 'A';
+    printf("%c", c);
+    return 0;
+}
+</pre>
+                </div>
+            </div>
+            <div class="problem">
+                <b>문제 4:</b> 정수형 변수 3개를 선언하고 각각 값을 입력받아 출력하세요.<br>
+                <button onclick="toggleSolution('sol1-4')">풀이 보기</button>
+                <div class="solution" id="sol1-4">
+<pre>
+#include &lt;stdio.h&gt;
+int main() {
+    int x, y, z;
+    scanf("%d %d %d", &x, &y, &z);
+    printf("%d %d %d", x, y, z);
+    return 0;
+}
+</pre>
+                </div>
+            </div>
+            <div class="problem">
+                <b>문제 5:</b> 변수의 값을 서로 바꾸는 프로그램을 작성하세요.<br>
+                <button onclick="toggleSolution('sol1-5')">풀이 보기</button>
+                <div class="solution" id="sol1-5">
+<pre>
+#include &lt;stdio.h&gt;
+int main() {
+    int a = 5, b = 10, temp;
+    temp = a;
+    a = b;
+    b = temp;
+    printf("%d %d", a, b);
+    return 0;
+}
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section">
+        <h2>2. 조건문</h2>
+        <div class="problems">
+            <div class="problem">
+                <b>문제 1:</b> 입력받은 수가 짝수인지 홀수인지 판별하세요.<br>
+                <button onclick="toggleSolution('sol2-1')">풀이 보기</button>
+                <div class="solution" id="sol2-1">
+<pre>
+#include &lt;stdio.h&gt;
+int main() {
+    int n;
+    scanf("%d", &n);
+    if (n % 2 == 0) printf("짝수");
+    else printf("홀수");
+    return 0;
+}
+</pre>
+                </div>
+            </div>
+            <div class="problem">
+                <b>문제 2:</b> 세 수 중 가장 큰 수를 출력하세요.<br>
+                <button onclick="toggleSolution('sol2-2')">풀이 보기</button>
+                <div class="solution" id="sol2-2">
+<pre>
+#include &lt;stdio.h&gt;
+int main() {
+    int a, b, c;
+    scanf("%d %d %d", &a, &b, &c);
+    int max = a;
+    if (b > max) max = b;
+    if (c > max) max = c;
+    printf("%d", max);
+    return 0;
+}
+</pre>
+                </div>
+            </div>
+            <div class="problem">
+                <b>문제 3:</b> 점수를 입력받아 학점을 출력하세요.<br>
+                <button onclick="toggleSolution('sol2-3')">풀이 보기</button>
+                <div class="solution" id="sol2-3">
+<pre>
+#include &lt;stdio.h&gt;
+int main() {
+    int score;
+    scanf("%d", &score);
+    if (score >= 90) printf("A");
+    else if (score >= 80) printf("B");
+    else if (score >= 70) printf("C");
+    else if (score >= 60) printf("D");
+    else printf("F");
+    return 0;
+}
+</pre>
+                </div>
+            </div>
+            <div class="problem">
+                <b>문제 4:</b> 윤년 판별 프로그램을 작성하세요.<br>
+                <button onclick="toggleSolution('sol2-4')">풀이 보기</button>
+                <div class="solution" id="sol2-4">
+<pre>
+#include &lt;stdio.h&gt;
+int main() {
+    int year;
+    scanf("%d", &year);
+    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
+        printf("윤년");
+    else
+        printf("평년");
+    return 0;
+}
+</pre>
+                </div>
+            </div>
+            <div class="problem">
+                <b>문제 5:</b> switch문을 이용해 요일을 출력하세요.<br>
+                <button onclick="toggleSolution('sol2-5')">풀이 보기</button>
+                <div class="solution" id="sol2-5">
+<pre>
+#include &lt;stdio.h&gt;
+int main() {
+    int day;
+    scanf("%d", &day);
+    switch(day) {
+        case 1: printf("월요일"); break;
+        case 2: printf("화요일"); break;
+        case 3: printf("수요일"); break;
+        case 4: printf("목요일"); break;
+        case 5: printf("금요일"); break;
+        case 6: printf("토요일"); break;
+        case 7: printf("일요일"); break;
+        default: printf("잘못된 입력");
+    }
+    return 0;
+}
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section">
+        <h2>3. 반복문</h2>
+        <div class="problems">
+            <div class="problem">
+                <b>문제 1:</b> 1부터 10까지 합을 구하세요.<br>
+                <button onclick="toggleSolution('sol3-1')">풀이 보기</button>
+                <div class="solution" id="sol3-1">
+<pre>
+#include &lt;stdio.h&gt;
+int main() {
+    int sum = 0;
+    for (int i = 1; i <= 10; i++) sum += i;
+    printf("%d", sum);
+    return 0;
+}
+</pre>
+                </div>
+            </div>
+            <div class="problem">
+                <b>문제 2:</b> 구구단 2단을 출력하세요.<br>
+                <button onclick="toggleSolution('sol3-2')">풀이 보기</button>
+                <div class="solution" id="sol3-2">
+<pre>
+#include &lt;stdio.h&gt;
+int main() {
+    for (int i = 1; i <= 9; i++)
+        printf("2 x %d = %d\n", i, 2 * i);
+    return 0;
+}
+</pre>
+                </div>
+            </div>
+            <div class="problem">
+                <b>문제 3:</b> while문으로 1부터 5까지 출력하세요.<br>
+                <button onclick="toggleSolution('sol3-3')">풀이 보기</button>
+                <div class="solution" id="sol3-3">
+<pre>
+#include &lt;stdio.h&gt;
+int main() {
+    int i = 1;
+    while (i <= 5) {
+        printf("%d ", i);
+        i++;
+    }
+    return 0;
+}
+</pre>
+                </div>
+            </div>
+            <div class="problem">
+                <b>문제 4:</b> do-while문으로 10부터 1까지 출력하세요.<br>
+                <button onclick="toggleSolution('sol3-4')">풀이 보기</button>
+                <div class="solution" id="sol3-4">
+<pre>
+#include &lt;stdio.h&gt;
+int main() {
+    int i = 10;
+    do {
+        printf("%d ", i);
+        i--;
+    } while (i >= 1);
+    return 0;
+}
+</pre>
+                </div>
+            </div>
+            <div class="problem">
+                <b>문제 5:</b> break문을 이용해 1부터 100까지의 수 중 50에서 멈추는 프로그램을 작성하세요.<br>
+                <button onclick="toggleSolution('sol3-5')">풀이 보기</button>
+                <div class="solution" id="sol3-5">
+<pre>
+#include &lt;stdio.h&gt;
+int main() {
+    for (int i = 1; i <= 100; i++) {
+        if (i == 51) break;
+        printf("%d ", i);
+    }
+    return 0;
+}
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 시험 대비 섹션 -->
+    <div id="exam-section">
+        <h2>시험 대비</h2>
+        <div>
+            <button onclick="startExam()">시험 시작</button>
+            <span id="timer"></span>
+            <span id="score"></span>
+        </div>
+        <div style="margin-top:15px;">
+            <div id="exam-question"></div>
+            <input type="text" id="exam-answer" placeholder="핵심 코드 또는 개념을 입력하세요" onkeydown="if(event.key==='Enter'){submitExamAnswer();}">
+            <button onclick="submitExamAnswer()">제출</button>
+        </div>
+        <div id="exam-result"></div>
+    </div>
+
+    <!-- 오답 노트 섹션 -->
+    <div id="wrong-note-section">
+        <h2>오답 노트</h2>
+        <div id="wrong-list">
+            <div style="color:#3182f6;font-weight:500;">아직 오답이 없습니다.</div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
