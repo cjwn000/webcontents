@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>윈도우 닫기</title>
+    <script>
+        let newWin = null; // 새 창을 기억
+
+        function load(URL) {
+            newWin = window.open(URL, "myWin", "left=300,top=300,width=400,height=300");
+        }
+
+        function closeNewWindow() {
+            if (newWin == null || newWin.closed) {
+                return; // 창이 없거나 이미 닫힌 경우 아무것도 하지 않음
+            } else {
+                newWin.close(); // 열린 새 창 닫기
+            }
+        }
+    </script>
+</head>
+<body>
+    <h3>window의 close()로 윈도우 닫기</h3>
+    <hr>
+    <a href="javascript:load('ex10-5.html')">새 윈도우 열기</a><br>
+    <a href="javascript:window.close()">현재 윈도우 닫기</a><br>
+    <a href="javascript:closeNewWindow()">새 윈도우 닫기</a>
+</body>
+</html>
